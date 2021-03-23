@@ -34,22 +34,8 @@ resource "vault_approle_auth_backend_login" "default" {
   secret_id = module.vault_approle.approle_secret
 }
 
-provider "vault" {
-  alias     = "default"
-  namespace = "admin/terraform-vault-secrets-transit"
-  token     = vault_approle_auth_backend_login.default.client_token
-}
-
 data "vault_transit_encrypt" "default" {
-  provider  = vault.default
   backend   = module.default.backend_path
   key       = vault_transit_secret_backend_key.default.name
-  plaintext = "devops-adeel"
-}
-
-data "vault_transit_decrypt" "default" {
-  provider   = vault.default
-  backend    = module.default.backend_path
-  key        = vault_transit_secret_backend_key.default.name
-  ciphertext = data.vault_transit_encrypt.default.ciphertext
+  plaintext = "integration_test"
 }

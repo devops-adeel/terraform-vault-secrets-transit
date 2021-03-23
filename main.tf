@@ -46,15 +46,15 @@ resource "vault_policy" "decrypt" {
 }
 
 resource "vault_identity_group" "encrypt" {
-  name             = "transit-encrypt"
-  type             = "internal"
+  name              = "transit-encrypt"
+  type              = "internal"
   external_policies = true
   member_entity_ids = local.encrypt_member_entity_ids
 }
 
 resource "vault_identity_group" "decrypt" {
-  name             = "transit-decrypt"
-  type             = "internal"
+  name              = "transit-decrypt"
+  type              = "internal"
   external_policies = true
   member_entity_ids = local.decrypt_member_entity_ids
 }
