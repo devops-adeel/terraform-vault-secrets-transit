@@ -6,6 +6,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [v0.1.1] -  2021-03-23
+## Changed
+- changed `integration_tests`
+
+## Updated
+- updated `README` file.
+
 ## [v0.1.0] -  2021-01-29
 ## Added
 - MVP Terraform Module
