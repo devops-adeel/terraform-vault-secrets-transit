@@ -30,3 +30,4 @@ override.tf.json
 
 # Local module testing files
 integration_tests/fixtures/module/*.tf
+integration_tests/files/terraform.json

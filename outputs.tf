@@ -10,5 +10,5 @@ output "vault_identity_group_decrypt" {
 
 output "backend_path" {
   description = "The path of mounted secret engine"
-  value = vault_mount.default.path
+  value       = vault_mount.default.path
 }
