@@ -1,3 +1,16 @@
+/**
+ * Usage:
+ *
+ * ```hcl
+ *
+ * module "vault_transit" {
+ *   source      = "git::https://github.com/devops-adeel/terraform-vault-secrets-transit.git?ref=v0.4.0"
+ *   entity_ids = [module.vault_approle.entity_id]
+ * }
+ * ```
+ */
+
+
 locals {
   encrypt_member_entity_ids = var.encrypt_entity_ids != [] ? var.encrypt_entity_ids : [vault_identity_entity.default.id]
   decrypt_member_entity_ids = var.decrypt_entity_ids != [] ? var.decrypt_entity_ids : [vault_identity_entity.default.id]

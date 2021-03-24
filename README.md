@@ -2,8 +2,10 @@
 
 # Terraform Vault Transit Backend
 
-This terraform module mounts Vault Transit engine, creates a templated ACL policy with an Identity Group associated.
+This terraform module mounts Vault Transit engine, creates a templated ACL
+policy with an Identity Group associated.
 
+<!-- BEGINNING OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
 ## Requirements
 
 No requirements.
@@ -44,3 +46,4 @@ No Modules.
 | `backend_path`                 | The path of mounted secret engine                                        |
 | `vault_identity_group_decrypt` | JSON data of the Vault Identity Group, including list of member entities |
 | `vault_identity_group_encrypt` | JSON data of the Vault Identity Group, including list of member entities |
+<!-- END OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
