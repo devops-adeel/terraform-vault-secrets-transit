@@ -23,20 +23,20 @@ title 'Vault Integration Test'
 
 control 'vlt-1.0' do
   impact 0.7
-  title 'Test access to encrypting data'
-  desc 'Test access encrypting data'
+  title 'Validate successful deny of encryption access using decryption approle'
+  desc 'Validate successful deny of encryption access'
   describe http("#{url}/v1/#{namespace}#{encrypt}",
               method: 'POST',
               data: encrypt_payload.to_s,
               headers: {'X-Vault-Token' => "#{token}"}) do
-    its('status') { should eq 200 }
+    its('status') { should eq 403 }
   end
 end
 
 control 'vlt-2.0' do
   impact 0.7
-  title 'Test access to encrypting data'
-  desc 'Test access encrypting data'
+  title 'Test access to decrypting data'
+  desc 'Test access decrypting data'
   describe http("#{url}/v1/#{namespace}#{decrypt}",
               method: 'POST',
               data: decrypt_payload.to_s,

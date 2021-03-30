@@ -1,13 +1,3 @@
-output "vault_identity_group_encrypt" {
-  description = "JSON data of the Vault Identity Group, including list of member entities"
-  value       = jsondecode(module.default.vault_identity_group_encrypt)
-}
-
-output "vault_identity_group_decrypt" {
-  description = "JSON data of the Vault Identity Group, including list of member entities"
-  value       = jsondecode(module.default.vault_identity_group_decrypt)
-}
-
 output "token" {
   description = "Vault Client Token taken from approle"
   value       = vault_approle_auth_backend_login.default.client_token
