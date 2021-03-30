@@ -5,16 +5,10 @@
  *
  * module "vault_transit" {
  *   source      = "git::https://github.com/devops-adeel/terraform-vault-secrets-transit.git?ref=v0.4.0"
- *   entity_ids = [module.vault_approle.entity_id]
  * }
  * ```
  */
 
-
-locals {
-  encrypt_member_entity_ids = var.encrypt_entity_ids != [] ? var.encrypt_entity_ids : [vault_identity_entity.default.id]
-  decrypt_member_entity_ids = var.decrypt_entity_ids != [] ? var.decrypt_entity_ids : [vault_identity_entity.default.id]
-}
 
 resource "vault_mount" "default" {
   path        = "transit"
@@ -59,30 +53,22 @@ resource "vault_policy" "decrypt" {
 }
 
 resource "vault_identity_group" "encrypt" {
-  name              = "transit-encrypt"
-  type              = "internal"
-  external_policies = true
-  member_entity_ids = local.encrypt_member_entity_ids
+  name                       = "transit-encrypt"
+  type                       = "internal"
+  external_policies          = true
+  external_member_entity_ids = true
 }
 
 resource "vault_identity_group" "decrypt" {
-  name              = "transit-decrypt"
-  type              = "internal"
-  external_policies = true
-  member_entity_ids = local.decrypt_member_entity_ids
-}
-
-data "vault_identity_group" "encrypt" {
-  group_id = vault_identity_group.encrypt.id
-}
-
-data "vault_identity_group" "decrypt" {
-  group_id = vault_identity_group.decrypt.id
+  name                       = "transit-decrypt"
+  type                       = "internal"
+  external_policies          = true
+  external_member_entity_ids = true
 }
 
 resource "vault_identity_group_policies" "encrypt" {
   group_id  = vault_identity_group.encrypt.id
-  exclusive = false
+  exclusive = true
   policies = [
     "default",
     vault_policy.encrypt.name,
@@ -91,17 +77,9 @@ resource "vault_identity_group_policies" "encrypt" {
 
 resource "vault_identity_group_policies" "decrypt" {
   group_id  = vault_identity_group.decrypt.id
-  exclusive = false
+  exclusive = true
   policies = [
     "default",
     vault_policy.decrypt.name,
   ]
-}
-
-resource "vault_identity_entity" "default" {
-  name = "transit-identity-default"
-  metadata = {
-    env     = "dev"
-    service = "example"
-  }
 }
