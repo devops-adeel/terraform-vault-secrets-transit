@@ -47,6 +47,18 @@ end
 
 control 'vlt-3.0' do
   impact 0.7
+  title 'Validate successful decryption to expected plaintext'
+  desc 'Validate successful decryption to expected plaintext'
+  describe json(content: http("#{url}/v1/#{namespace}#{decrypt}",
+              method: 'POST',
+              data: decrypt_payload.to_s,
+              headers: {'X-Vault-Token' => "#{token}"}).body) do
+    its('data', 'plaintext') { should cmp 'integration_test' }
+  end
+end
+
+control 'vlt-4.0' do
+  impact 0.7
   title 'Test health'
   desc 'Test health'
   describe http("#{url}/v1/sys/health?perfstandbyok=true",
