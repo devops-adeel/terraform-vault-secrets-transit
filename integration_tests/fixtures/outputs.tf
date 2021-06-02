@@ -25,7 +25,7 @@ output "decryption_endpoint" {
 
 output "encoded_data" {
   description = "Base64 encoded test data to encrypt"
-  value       = base64encode("integration tests")
+  value       = base64encode("integration_test")
 }
 
 output "ciphertext" {
