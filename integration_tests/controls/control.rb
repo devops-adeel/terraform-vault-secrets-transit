@@ -53,7 +53,7 @@ control 'vlt-3.0' do
               method: 'POST',
               data: decrypt_payload.to_s,
               headers: {'X-Vault-Token' => "#{token}"}).body) do
-    its('data', 'plaintext') { should cmp 'integration_test' }
+    its(['data', 'plaintext']) { should cmp "#{encoded_data}" }
   end
 end
 
