@@ -17,11 +17,25 @@ ciphertext      = params['ciphertext']['value']
 
 encrypt_payload = JSON.generate({:plaintext => "#{encoded_data}"})
 decrypt_payload = JSON.generate({:ciphertext => "#{ciphertext}"})
+token_lookup    = JSON.generate({:token => "#{token}"})
 
 
 title 'Vault Integration Test'
 
 control 'vlt-1.0' do
+  impact 0.7
+  title 'Ensure token has correct policies'
+  desc 'Ensure token has correct policies'
+  describe json(content: http("#{url}/v1/auth/token/lookup",
+              method: 'POST',
+              data: token_lookup.to_s,
+              headers: {'X-Vault-Token' => "#{token}"}).body) do
+    its(['data', 'identity_policies']) { should include 'transit-decrypt-tmpl' }
+    its(['data', 'identity_policies']) { should_not include 'transit-encrypt-tmpl' }
+  end
+end
+
+control 'vlt-2.0' do
   impact 0.7
   title 'Validate successful deny of encryption access using decryption approle'
   desc 'Validate successful deny of encryption access'
@@ -33,7 +47,7 @@ control 'vlt-1.0' do
   end
 end
 
-control 'vlt-2.0' do
+control 'vlt-3.0' do
   impact 0.7
   title 'Test access to decrypting data'
   desc 'Test access decrypting data'
@@ -45,7 +59,7 @@ control 'vlt-2.0' do
   end
 end
 
-control 'vlt-3.0' do
+control 'vlt-4.0' do
   impact 0.7
   title 'Validate successful decryption to expected plaintext'
   desc 'Validate successful decryption to expected plaintext'
@@ -57,7 +71,7 @@ control 'vlt-3.0' do
   end
 end
 
-control 'vlt-4.0' do
+control 'vlt-5.0' do
   impact 0.7
   title 'Test health'
   desc 'Test health'
